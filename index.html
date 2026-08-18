@@ -2,92 +2,262 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>لعبة حجر ورقة مقص - معتز ناجي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدير مشاريعي | معتز ناجي</title>
     <style>
-        body { background-color: #0d1117; color: #ffffff; font-family: Tahoma, sans-serif; text-align: center; padding: 20px; margin: 0; }
-        .box { background-color: #161b22; padding: 25px; border-radius: 12px; max-width: 450px; margin: 30px auto; border-top: 4px solid #a855f7; box-shadow: 0 4px 15px rgba(0,0,0,0.6); text-align: right; }
-        h1 { color: #c084fc; margin-bottom: 5px; text-align: center; font-size: 1.4rem; }
-        p.subtitle { color: #8b949e; font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
-        
-        .score-board { display: flex; justify-content: space-around; background-color: #21262d; padding: 12px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; font-size: 0.95rem; text-align: center; }
-        .score-item strong { color: #facc15; font-size: 1.2rem; display: block; margin-top: 4px; }
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --border: #30363d;
+            --accent: #238636;
+            --accent-hover: #2ea043;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --text-muted: #8b949e;
+        }
 
-        .choices { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
-        .choice-btn { background-color: #21262d; border: 2px solid #30363d; border-radius: 10px; font-size: 2rem; padding: 12px 20px; cursor: pointer; transition: 0.2s; }
-        .choice-btn:hover { border-color: #c084fc; background-color: #30363d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .result-box { background-color: #0d1117; padding: 15px; border-radius: 8px; border: 1px solid #30363d; text-align: center; font-size: 1rem; color: #58a6ff; margin-bottom: 15px; min-height: 40px; line-height: 1.5; }
-        
-        .reset-btn { background-color: #30363d; color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-family: Tahoma, sans-serif; font-size: 0.9rem; }
-        .reset-btn:hover { background-color: #484f58; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: Tahoma, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border-top: 4px solid var(--accent);
+        }
+
+        header h1 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* صندوق الإضافة */
+        .form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-heading);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: white;
+            font-family: Tahoma, sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .input-field:focus {
+            border-color: #58a6ff;
+            outline: none;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            font-family: Tahoma, sans-serif;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* قائمة المشاريع */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .project-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .project-item:hover {
+            border-color: #58a6ff;
+        }
+
+        .project-info h3 {
+            color: var(--text-heading);
+            font-size: 1.05rem;
+            margin-bottom: 3px;
+        }
+
+        .project-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .delete-btn {
+            background-color: #da3633;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: Tahoma, sans-serif;
+        }
+
+        .delete-btn:hover {
+            background-color: #b31d1d;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h1>حجر، ورقة، مقص</h1>
-        <p.subtitle>اختر عنصراً وتحدى الكمبيوتر في كل جولة</p>
+    <div class="container">
         
-        <div class="score-board">
-            <div class="score-item">نقاطك <strong id="playerScore">0</strong></div>
-            <div class="score-item">التعادل <strong id="drawScore">0</strong></div>
-            <div class="score-item">نقاط الكمبيوتر <strong id="computerScore">0</strong></div>
+        <header>
+            <h1>إدارة أفكار ومشاريع معتز</h1>
+            <p>أضف مشاريعك البرمجية القادمة وتابعها بكل تنظيم</p>
+        </header>
+
+        <!-- نموذج إضافة مشروع جديد -->
+        <div class="form-card">
+            <div class="form-group">
+                <label for="projName">عنوان المشروع:</label>
+                <input type="text" id="projName" class="input-field" placeholder="مثلاً: موقع نادي الترجي الرياضي">
+            </div>
+            <div class="form-group">
+                <label for="projDesc">وصف مختصر:</label>
+                <input type="text" id="projDesc" class="input-field" placeholder="مثلاً: صفحة تعريفية بلغة HTML و CSS">
+            </div>
+            <button class="btn" onclick="addProject()">إضافة المشروع للقائمة</button>
         </div>
 
-        <div class="choices">
-            <button class="choice-btn" onclick="play('حجر')">🪨</button>
-            <button class="choice-btn" onclick="play('ورقة')">📄</button>
-            <button class="choice-btn" onclick="play('مقص')">✂️</button>
+        <!-- قائمة عرض المشاريع -->
+        <div class="projects-list" id="projectsContainer">
+            <!-- سيتم إضافة المشاريع هنا ديناميكياً -->
         </div>
 
-        <div class="result-box" id="resultMsg">اختر إحدى الأيقونات في الأعلى لبدء التحدي!</div>
-
-        <button class="reset-btn" onclick="resetGame()">إعادة ضبط النقاط</button>
     </div>
 
     <script>
-        let pScore = 0;
-        let cScore = 0;
-        let dScore = 0;
+        // تحميل المشاريع أول ما تفتح الصفحة
+        document.addEventListener("DOMContentLoaded", loadProjects);
 
-        function play(playerChoice) {
-            const choices = ['حجر', 'ورقة', 'مقص'];
-            const emojis = { 'حجر': '🪨', 'ورقة': '📄', 'مقص': '✂️' };
-            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+        function addProject() {
+            const nameInput = document.getElementById("projName");
+            const descInput = document.getElementById("projDesc");
 
-            const msgBox = document.getElementById("resultMsg");
+            const name = nameInput.value.trim();
+            const desc = descInput.value.trim();
 
-            if (playerChoice === computerChoice) {
-                dScore++;
-                document.getElementById("drawScore").innerText = dScore;
-                msgBox.innerHTML = `تعادل! 🤝 اخترت أنت (${emojis[playerChoice]}) واختار الكمبيوتر (${emojis[computerChoice]}).`;
-                msgBox.style.color = "#facc15";
-            } else if (
-                (playerChoice === 'حجر' && computerChoice === 'مقص') ||
-                (playerChoice === 'ورقة' && computerChoice === 'حجر') ||
-                (playerChoice === 'مقص' && computerChoice === 'ورقة')
-            ) {
-                pScore++;
-                document.getElementById("playerScore").innerText = pScore;
-                msgBox.innerHTML = `🎉 مبروك يا معتز، لقد ربحت الجولة! <br>اخترت (${emojis[playerChoice]}) والكمبيوتر (${emojis[computerChoice]}).`;
-                msgBox.style.color = "#2ea043";
-            } else {
-                cScore++;
-                document.getElementById("computerScore").innerText = cScore;
-                msgBox.innerHTML = `❌ فاز الكمبيوتر في هذه الجولة!<br>اخترت (${emojis[playerChoice]}) والكمبيوتر (${emojis[computerChoice]}).`;
-                msgBox.style.color = "#f85149";
+            if (name === "" || desc === "") {
+                alert("الرجاء ملء خانة العنوان ووصف المشروع!");
+                return;
             }
+
+            const newProject = { name: name, desc: desc };
+
+            // جلب المشاريع القديمة من الذاكرة المحلية (LocalStorage)
+            let projects = JSON.parse(localStorage.getItem("my_portfolio_projects")) || [];
+            projects.push(newProject);
+            localStorage.setItem("my_portfolio_projects", JSON.stringify(projects));
+
+            // تفريغ الحقول
+            nameInput.value = "";
+            descInput.value = "";
+
+            renderProjects();
         }
 
-        function resetGame() {
-            pScore = 0;
-            cScore = 0;
-            dScore = 0;
-            document.getElementById("playerScore").innerText = pScore;
-            document.getElementById("computerScore").innerText = cScore;
-            document.getElementById("drawScore").innerText = dScore;
-            document.getElementById("resultMsg").innerHTML = "تمت إعادة ضبط النقاط. اختر إحدى الأيقونات لبدء اللعب!";
-            document.getElementById("resultMsg").style.color = "#58a6ff";
+        function loadProjects() {
+            renderProjects();
+        }
+
+        function renderProjects() {
+            const container = document.getElementById("projectsContainer");
+            container.innerHTML = "";
+
+            let projects = JSON.parse(localStorage.getItem("my_portfolio_projects")) || [];
+
+            if (projects.length === 0) {
+                container.innerHTML = `<div class="empty-msg">لا توجد مشاريع مضافة حالياً. أضف مشروعك الأول في الأعلى!</div>`;
+                return;
+            }
+
+            projects.forEach((proj, index) => {
+                const item = document.div = document.createElement("div");
+                item.className = "project-item";
+                item.innerHTML = `
+                    <div class="project-info">
+                        <h3>${proj.name}</h3>
+                        <p>${proj.desc}</p>
+                    </div>
+                    <button class="delete-btn" onclick="deleteProject(${index})">حذف</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function deleteProject(index) {
+            let projects = JSON.parse(localStorage.getItem("my_portfolio_projects")) || [];
+            projects.splice(index, 1);
+            localStorage.setItem("my_portfolio_projects", JSON.stringify(projects));
+            renderProjects();
         }
     </script>
 
