@@ -2,105 +2,93 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>حاسبة الوقت الدقيقة - معتز ناجي</title>
+    <title>لعبة حجر ورقة مقص - معتز ناجي</title>
     <style>
         body { background-color: #0d1117; color: #ffffff; font-family: Tahoma, sans-serif; text-align: center; padding: 20px; margin: 0; }
-        .box { background-color: #161b22; padding: 25px; border-radius: 12px; max-width: 500px; margin: 30px auto; border-top: 4px solid #3b82f6; box-shadow: 0 4px 15px rgba(0,0,0,0.6); text-align: right; }
-        h1 { color: #60a5fa; margin-bottom: 5px; text-align: center; font-size: 1.4rem; }
+        .box { background-color: #161b22; padding: 25px; border-radius: 12px; max-width: 450px; margin: 30px auto; border-top: 4px solid #a855f7; box-shadow: 0 4px 15px rgba(0,0,0,0.6); text-align: right; }
+        h1 { color: #c084fc; margin-bottom: 5px; text-align: center; font-size: 1.4rem; }
         p.subtitle { color: #8b949e; font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
         
-        .input-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .input-group label { color: #c9d1d9; font-size: 0.9rem; }
-        .date-input { padding: 10px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-family: Tahoma, sans-serif; font-size: 1rem; width: 100%; box-sizing: border-box; }
-        
-        .calc-btn { background-color: #1f6feb; color: white; border: none; width: 100%; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: Tahoma, sans-serif; font-size: 1rem; }
-        .calc-btn:hover { background-color: #388bfd; }
+        .score-board { display: flex; justify-content: space-around; background-color: #21262d; padding: 12px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; font-size: 0.95rem; text-align: center; }
+        .score-item strong { color: #facc15; font-size: 1.2rem; display: block; margin-top: 4px; }
 
-        .results { margin-top: 25px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .result-card { background-color: #21262d; padding: 15px; border-radius: 8px; border: 1px solid #30363d; text-align: center; }
-        .result-number { font-size: 1.3rem; color: #facc15; font-weight: bold; margin-bottom: 5px; font-family: monospace; }
-        .result-label { font-size: 0.85rem; color: #8b949e; }
+        .choices { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
+        .choice-btn { background-color: #21262d; border: 2px solid #30363d; border-radius: 10px; font-size: 2rem; padding: 12px 20px; cursor: pointer; transition: 0.2s; }
+        .choice-btn:hover { border-color: #c084fc; background-color: #30363d; }
+
+        .result-box { background-color: #0d1117; padding: 15px; border-radius: 8px; border: 1px solid #30363d; text-align: center; font-size: 1rem; color: #58a6ff; margin-bottom: 15px; min-height: 40px; line-height: 1.5; }
+        
+        .reset-btn { background-color: #30363d; color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-family: Tahoma, sans-serif; font-size: 0.9rem; }
+        .reset-btn:hover { background-color: #484f58; }
     </style>
 </head>
 <body>
 
     <div class="box">
-        <h1>حاسبة الوقت والعمر الدقيقة</h1>
-        <p class="subtitle">اختر تاريخ ميلادك أو أي تاريخ لاكتشاف التفاصيل بالكامل</p>
+        <h1>حجر، ورقة، مقص</h1>
+        <p.subtitle>اختر عنصراً وتحدى الكمبيوتر في كل جولة</p>
         
-        <div class="input-group">
-            <label for="birthDate">اختر التاريخ:</label>
-            <input type="date" id="birthDate" class="date-input">
+        <div class="score-board">
+            <div class="score-item">نقاطك <strong id="playerScore">0</strong></div>
+            <div class="score-item">التعادل <strong id="drawScore">0</strong></div>
+            <div class="score-item">نقاط الكمبيوتر <strong id="computerScore">0</strong></div>
         </div>
 
-        <button class="calc-btn" onclick="calculateTime()">احسب التفاصيل</button>
-
-        <div class="results" id="resultsArea" style="display: none;">
-            <div class="result-card">
-                <div class="result-number" id="yearsCount">0</div>
-                <div class="result-label">سنوات</div>
-            </div>
-            <div class="result-card">
-                <div class="result-number" id="monthsCount">0</div>
-                <div class="result-label">شهور تقريبية</div>
-            </div>
-            <div class="result-card">
-                <div class="result-number" id="daysCount">0</div>
-                <div class="result-label">إجمالي الأيام</div>
-            </div>
-            <div class="result-card">
-                <div class="result-number" id="hoursCount">0</div>
-                <div class="result-label">إجمالي الساعات</div>
-            </div>
+        <div class="choices">
+            <button class="choice-btn" onclick="play('حجر')">🪨</button>
+            <button class="choice-btn" onclick="play('ورقة')">📄</button>
+            <button class="choice-btn" onclick="play('مقص')">✂️</button>
         </div>
+
+        <div class="result-box" id="resultMsg">اختر إحدى الأيقونات في الأعلى لبدء التحدي!</div>
+
+        <button class="reset-btn" onclick="resetGame()">إعادة ضبط النقاط</button>
     </div>
 
     <script>
-        function calculateTime() {
-            const inputVal = document.getElementById("birthDate").value;
-            if (!inputVal) {
-                alert("الرجاء اختيار تاريخ صحيح أولاً!");
-                return;
+        let pScore = 0;
+        let cScore = 0;
+        let dScore = 0;
+
+        function play(playerChoice) {
+            const choices = ['حجر', 'ورقة', 'مقص'];
+            const emojis = { 'حجر': '🪨', 'ورقة': '📄', 'مقص': '✂️' };
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            const msgBox = document.getElementById("resultMsg");
+
+            if (playerChoice === computerChoice) {
+                dScore++;
+                document.getElementById("drawScore").innerText = dScore;
+                msgBox.innerHTML = `تعادل! 🤝 اخترت أنت (${emojis[playerChoice]}) واختار الكمبيوتر (${emojis[computerChoice]}).`;
+                msgBox.style.color = "#facc15";
+            } else if (
+                (playerChoice === 'حجر' && computerChoice === 'مقص') ||
+                (playerChoice === 'ورقة' && computerChoice === 'حجر') ||
+                (playerChoice === 'مقص' && computerChoice === 'ورقة')
+            ) {
+                pScore++;
+                document.getElementById("playerScore").innerText = pScore;
+                msgBox.innerHTML = `🎉 مبروك يا معتز، لقد ربحت الجولة! <br>اخترت (${emojis[playerChoice]}) والكمبيوتر (${emojis[computerChoice]}).`;
+                msgBox.style.color = "#2ea043";
+            } else {
+                cScore++;
+                document.getElementById("computerScore").innerText = cScore;
+                msgBox.innerHTML = `❌ فاز الكمبيوتر في هذه الجولة!<br>اخترت (${emojis[playerChoice]}) والكمبيوتر (${emojis[computerChoice]}).`;
+                msgBox.style.color = "#f85149";
             }
-
-            const birthDate = new Date(inputVal);
-            const now = new Date();
-
-            if (birthDate > now) {
-                alert("التاريخ المدخل في المستقبل!");
-                return;
-            }
-
-            let years = now.getFullYear() - birthDate.getFullYear();
-            let months = now.getMonth() - birthDate.getMonth();
-            let days = now.getDate() - birthDate.getDate();
-
-            if (days < 0) {
-                months--;
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += prevMonth.getDate();
-            }
-
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            const diffTime = Math.abs(now - birthDate);
-            const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const totalHours = Math.floor(diffTime / (1000 * 60 * 60));
-
-            document.getElementById("yearsCount").innerText = years;
-            document.getElementById("monthsCount").innerText = (years * 12) + months;
-            document.getElementById("daysCount").innerText = totalDays.toLocaleString();
-            document.getElementById("hoursCount").innerText = totalHours.toLocaleString();
-
-            document.getElementById("resultsArea").style.display = "grid";
         }
 
-        // وضع تاريخ افتراضي (مثلاً سنة 2011) لتسهيل التجربة
-        document.getElementById("birthDate").value = "2005-01-01";
-        calculateTime();
+        function resetGame() {
+            pScore = 0;
+            cScore = 0;
+            dScore = 0;
+            document.getElementById("playerScore").innerText = pScore;
+            document.getElementById("computerScore").innerText = cScore;
+            document.getElementById("drawScore").innerText = dScore;
+            document.getElementById("resultMsg").innerHTML = "تمت إعادة ضبط النقاط. اختر إحدى الأيقونات لبدء اللعب!";
+            document.getElementById("resultMsg").style.color = "#58a6ff";
+        }
     </script>
 
 </body>
