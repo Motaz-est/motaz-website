@@ -2,104 +2,105 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>موقع معتز ناجي - المساعد الذكي</title>
+    <title>حاسبة الوقت الدقيقة - معتز ناجي</title>
     <style>
         body { background-color: #0d1117; color: #ffffff; font-family: Tahoma, sans-serif; text-align: center; padding: 20px; margin: 0; }
-        .logo { width: 130px; height: 130px; border-radius: 50%; border: 4px solid #facc15; margin-bottom: 10px; box-shadow: 0 0 20px rgba(250, 204, 21, 0.4); }
-        .box { background-color: #161b22; padding: 20px; border-radius: 12px; max-width: 600px; margin: 15px auto; border-top: 4px solid #dc2626; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-align: right; }
-        h1 { color: #facc15; margin-bottom: 5px; }
-        h2 { color: #facc15; font-size: 1.2rem; margin-bottom: 10px; border-bottom: 2px solid #30363d; padding-bottom: 6px; }
-        p { margin: 6px 0; font-size: 1rem; line-height: 1.5; }
-        .subtitle { color: #8b949e; font-size: 0.95rem; margin-bottom: 20px; text-align: center; }
+        .box { background-color: #161b22; padding: 25px; border-radius: 12px; max-width: 500px; margin: 30px auto; border-top: 4px solid #3b82f6; box-shadow: 0 4px 15px rgba(0,0,0,0.6); text-align: right; }
+        h1 { color: #60a5fa; margin-bottom: 5px; text-align: center; font-size: 1.4rem; }
+        p.subtitle { color: #8b949e; font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
         
-        /* تنسيق الشات */
-        .chat-container { background-color: #161b22; border: 2px solid #facc15; border-radius: 12px; max-width: 600px; margin: 20px auto; padding: 15px; text-align: right; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .chat-box { height: 330px; background-color: #0d1117; border-radius: 8px; padding: 15px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #30363d; font-size: 0.95rem; }
-        .user-msg { color: #60a5fa; margin: 10px 0; background-color: #1f2937; padding: 8px; border-radius: 8px; display: inline-block; max-width: 80%; }
-        .bot-msg { color: #facc15; margin: 10px 0; line-height: 1.6; background-color: #2d3748; padding: 8px; border-radius: 8px; display: inline-block; max-width: 90%; }
-        .chat-input-area { display: flex; gap: 10px; }
-        .chat-input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-family: Tahoma, sans-serif; }
-        .chat-btn { background-color: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: Tahoma, sans-serif; }
-        .chat-btn:hover { background-color: #b91c1c; }
+        .input-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { color: #c9d1d9; font-size: 0.9rem; }
+        .date-input { padding: 10px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-family: Tahoma, sans-serif; font-size: 1rem; width: 100%; box-sizing: border-box; }
+        
+        .calc-btn { background-color: #1f6feb; color: white; border: none; width: 100%; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: Tahoma, sans-serif; font-size: 1rem; }
+        .calc-btn:hover { background-color: #388bfd; }
+
+        .results { margin-top: 25px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .result-card { background-color: #21262d; padding: 15px; border-radius: 8px; border: 1px solid #30363d; text-align: center; }
+        .result-number { font-size: 1.3rem; color: #facc15; font-weight: bold; margin-bottom: 5px; font-family: monospace; }
+        .result-label { font-size: 0.85rem; color: #8b949e; }
     </style>
 </head>
 <body>
 
-    <!-- الشعار -->
-    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Esp%C3%A9rance_Sportive_de_Tunis_logo.svg/1200px-Esp%C3%A9rance_Sportive_de_Tunis_logo.svg.png" alt="شعار الترجي" class="logo">
-    
-    <h1>موقع معتز ناجي</h1>
-    <p class="subtitle">الموقع الرسمي والمساعد الذكي الخاص بك</p>
-
-    <!-- قسم الشات التفاعلي -->
-    <div class="chat-container">
-        <h2>اسأل مساعد معتز الذكي</h2>
-        <div class="chat-box" id="chatBox">
-            <div class="bot-msg"><b>المساعد:</b> أهلاً يا معتز! أنا جاهز وموجود معاك، اسألني عن أي حاجة تحب عليها وسأجيبك فوراً!</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleKeyPress(event)">
-            <button class="chat-btn" onclick="sendMessage()">إرسال</button>
-        </div>
-    </div>
-
-    <!-- معلومات الترجي -->
     <div class="box">
-        <h2>نبذة عن الترجي الرياضي</h2>
-        <p>تأسس الترجي الرياضي التونسي في <strong>15 جانفي 1919</strong>، وهو عميد الأندية التونسية وأكثرها تتويجاً.</p>
+        <h1>حاسبة الوقت والعمر الدقيقة</h1>
+        <p class="subtitle">اختر تاريخ ميلادك أو أي تاريخ لاكتشاف التفاصيل بالكامل</p>
+        
+        <div class="input-group">
+            <label for="birthDate">اختر التاريخ:</label>
+            <input type="date" id="birthDate" class="date-input">
+        </div>
+
+        <button class="calc-btn" onclick="calculateTime()">احسب التفاصيل</button>
+
+        <div class="results" id="resultsArea" style="display: none;">
+            <div class="result-card">
+                <div class="result-number" id="yearsCount">0</div>
+                <div class="result-label">سنوات</div>
+            </div>
+            <div class="result-card">
+                <div class="result-number" id="monthsCount">0</div>
+                <div class="result-label">شهور تقريبية</div>
+            </div>
+            <div class="result-card">
+                <div class="result-number" id="daysCount">0</div>
+                <div class="result-label">إجمالي الأيام</div>
+            </div>
+            <div class="result-card">
+                <div class="result-number" id="hoursCount">0</div>
+                <div class="result-label">إجمالي الساعات</div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function sendMessage() {
-            const inputField = document.getElementById("userInput");
-            const chatBox = document.getElementById("chatBox");
-            const userText = inputField.value.trim();
-
-            if (userText === "") return;
-
-            // إضافة رسالة المستخدم
-            chatBox.innerHTML += `<div style="text-align: right;"><div class="user-msg"><b>أنت:</b> ${userText}</div></div>`;
-            inputField.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // محاكاة التفكير الذكي
-            const loadingId = "loading-" + Date.now();
-            chatBox.innerHTML += `<div style="text-align: right;" id="${loadingId}"><div class="bot-msg"><b>المساعد:</b> جاري كتابة الإجابة... ⏳</div></div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById(loadingId).remove();
-                const text = userText.toLowerCase();
-                let botReply = `سؤال في غاية الأهمية يا معتز! بخصوص موضوع "${userText}"، العالم الرقمي والرياضي مليان تفاصيل، وموقعك مصمم باش يعطي أفضل قيمة وإجابة لكل زائر.`;
-
-                // تحليلات الأسئلة حسب الكلمات المفتاحية
-                if (text.includes("ترجي") || text.includes("مكشخة") || text.includes("غول إفريقيا") || text.includes("بلايلي") || text.includes("كورة")) {
-                    botReply = "الترجي الرياضي التونسي (غول إفريقيا وعميد الأندية) هو فخر كرة القدم! تأسس سنة 1919، وعنده تاريخ عظيم وألقاب لا تُحصى، وبصمات أساطيره مثل يوسف البلايلي ديما حاضرة في الذاكرة.";
-                } else if (text.includes("برمجة") || text.includes("html") || text.includes("css") || text.includes("موقع") || text.includes("github") || text.includes("كود")) {
-                    botReply = "مجال البرمجة وتطوير مواقع الويب هو الأساس لنشر أفكارك. هذا الموقع تم برمجته وتطويره باحترافية ليكون متجاوباً وسريعاً على منصة GitHub Pages.";
-                } else if (text.includes("رياضة") || text.includes("لياقة") || text.includes("سرعة") || text.includes("تمارين") || text.includes("جناح")) {
-                    botReply = "الرياضة وتطوير اللياقة والسرعة (خاصة للاعبي الأجنحة) تتطلب تمارين فردية متواصلة، انضباط بدني، وجهد منظم باش توصل لأعلى مستوى أداء.";
-                } else if (text.includes("تاريخ") || text.includes("مسلسل") || text.includes("ارطغرل") || text.includes("العهد")) {
-                    botReply = "الأعمال التاريخية والدراما العظيمة مثل قيامة أرطغرل تروي قصص الشجاعة والإصرار، وتعكس روح التحدي للوصول للأهداف الكبرى.";
-                } else if (text.includes("سلام") || text.includes("مرحبا") || text.includes("أهلاً") || text.includes("كيفك") || text.includes("شنوا أحوالك")) {
-                    botReply = "أهلاً بك يا معتز يا غالي! أنا ديما معك وبجانبك لدعم أفكارك وموقعك بكل ما تحتاجه.";
-                } else if (text.includes("معتز") || text.includes("شكون أنت") || text.includes("من أنت")) {
-                    botReply = "أنا المساعد الذكي لموقع معتز ناجي، المطور الطموح العاشق للبرمجة ورياضة كرة القدم!";
-                } else {
-                    // رد ذكي عام لأي سؤال في الدنيا يجعله يبدو كأنه ذكاء حقيقي
-                    botReply = `ملاحظة ذكية يا معتز! بالنسبة لـ "${userText}"، الإجابة تعتمد على زاوية التفكير؛ فالتطوير المستمر والبحث هما مفتاح كل إنجاز ناجح، وأنا هنا باش نجاوبك على أي حاجة تخطر على بالك!`;
-                }
-
-                chatBox.innerHTML += `<div style="text-align: right;"><div class="bot-msg"><b>المساعد:</b> ${botReply}</div></div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 500);
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                sendMessage();
+        function calculateTime() {
+            const inputVal = document.getElementById("birthDate").value;
+            if (!inputVal) {
+                alert("الرجاء اختيار تاريخ صحيح أولاً!");
+                return;
             }
+
+            const birthDate = new Date(inputVal);
+            const now = new Date();
+
+            if (birthDate > now) {
+                alert("التاريخ المدخل في المستقبل!");
+                return;
+            }
+
+            let years = now.getFullYear() - birthDate.getFullYear();
+            let months = now.getMonth() - birthDate.getMonth();
+            let days = now.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const diffTime = Math.abs(now - birthDate);
+            const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const totalHours = Math.floor(diffTime / (1000 * 60 * 60));
+
+            document.getElementById("yearsCount").innerText = years;
+            document.getElementById("monthsCount").innerText = (years * 12) + months;
+            document.getElementById("daysCount").innerText = totalDays.toLocaleString();
+            document.getElementById("hoursCount").innerText = totalHours.toLocaleString();
+
+            document.getElementById("resultsArea").style.display = "grid";
         }
+
+        // وضع تاريخ افتراضي (مثلاً سنة 2011) لتسهيل التجربة
+        document.getElementById("birthDate").value = "2005-01-01";
+        calculateTime();
     </script>
 
 </body>
