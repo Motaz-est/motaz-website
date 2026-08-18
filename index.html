@@ -12,11 +12,11 @@
         p { margin: 6px 0; font-size: 1rem; line-height: 1.5; }
         .subtitle { color: #8b949e; font-size: 0.95rem; margin-bottom: 20px; text-align: center; }
         
-        /* تنسيق صندوق الشات */
+        /* تنسيق الشات */
         .chat-container { background-color: #161b22; border: 2px solid #facc15; border-radius: 12px; max-width: 600px; margin: 20px auto; padding: 15px; text-align: right; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .chat-box { height: 250px; background-color: #0d1117; border-radius: 8px; padding: 10px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #30363d; font-size: 0.95rem; }
-        .user-msg { color: #60a5fa; margin: 8px 0; }
-        .bot-msg { color: #facc15; margin: 8px 0; line-height: 1.5; }
+        .chat-box { height: 320px; background-color: #0d1117; border-radius: 8px; padding: 15px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #30363d; font-size: 0.95rem; }
+        .user-msg { color: #60a5fa; margin: 10px 0; background-color: #1f2937; padding: 8px; border-radius: 8px; display: inline-block; max-width: 80%; }
+        .bot-msg { color: #facc15; margin: 10px 0; line-height: 1.6; background-color: #2d3748; padding: 8px; border-radius: 8px; display: inline-block; max-width: 90%; }
         .chat-input-area { display: flex; gap: 10px; }
         .chat-input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-family: Tahoma, sans-serif; }
         .chat-btn { background-color: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: Tahoma, sans-serif; }
@@ -35,7 +35,7 @@
     <div class="chat-container">
         <h2>اسأل مساعد معتز الذكي</h2>
         <div class="chat-box" id="chatBox">
-            <div class="bot-msg"><b>المساعد:</b> مرحباً بك يا غالي! أنا مساعد معتز الذكي، اسألني عن الترجي، البرمجة، المسلسلات، أو أي شيء وسأجيبك فوراً.</div>
+            <div class="bot-msg"><b>المساعد:</b> أهلاً بك يا غالي! أنا المساعد الذكي لمعتز، اسألني عن أي شيء (الترجي، الرياضة، البرمجة، التاريخ، أو أي سؤال عام) وسأجيبك فوراً!</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleKeyPress(event)">
@@ -46,8 +46,7 @@
     <!-- معلومات الترجي -->
     <div class="box">
         <h2>نبذة عن الترجي الرياضي</h2>
-        <p>تأسس الترجي الرياضي التونسي في <strong>15 جانفي 1919</strong>، وهو عميد الأندية التونسية وأكثرها تتويجاً.</p>
-        <p><strong>أبرز الألقاب:</strong> بطولة تونس، كأس تونس، ورابطة أبطال إفريقيا.</p>
+        <p>تأسس الترجي الرياضي التونسي في <strong>15 جانفي 1919</strong>، وهو عميد الأندية التونسية وأكثرها تتويجاً بالألقاب المحلية والقارية.</p>
     </div>
 
     <script>
@@ -59,35 +58,47 @@
             if (userText === "") return;
 
             // إضافة رسالة المستخدم
-            chatBox.innerHTML += `<div class="user-msg"><b>أنت:</b> ${userText}</div>`;
+            chatBox.innerHTML += `<div style="text-align: right;"><div class="user-msg"><b>أنت:</b> ${userText}</div></div>`;
             inputField.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // توليد الإجابة الذكية بناءً على الكلمات المفتاحية
+            // توليد الإجابة الذكية الشاملة
             setTimeout(() => {
-                let botReply = "سؤالك ذكي جداً يا معتز! لكن في الوقت الحالي أجيبك بدقة على أسئلة الترجي، البرمجة، والتاريخ. جرب أن تسألني عن الترجي الرياضي، ألقاب الفريق، أو تصميم المواقع!";
-                
                 const text = userText.toLowerCase();
+                let botReply = "سؤال ممتاز يا غالي! بناءً على معطيات موقع معتز ناجي، هذا الموضوع مهم جداً، وعالم المعرفة واسع لدرجة أننا نربط دائماً بين الشغف الرياضي والتقني.";
 
-                if (text.includes("ترجي") || text.includes("مكشخة") || text.includes("دولة") || text.includes("غول إفريقيا")) {
-                    botReply = "الترجي يا دولة! غول إفريقيا وعميد الأندية التونسية، تأسس سنة 1919 وله تاريخ كبير من الألقاب القارية والمحلية.";
-                } else if (text.includes("لقب") || text.includes("بطولة") || text.includes("ألقاب")) {
-                    botReply = "من أبرز ألقاب الترجي الرياضي التونسي: بطولة تونس (رقم قياسي)، كأس تونس، ورابطة أبطال إفريقيا أعوام 1994، 2011، 2018، و2019.";
-                } else if (text.includes("سلام") || text.includes("أهلاً") || text.includes("مرحبا") || text.includes("صباح") || text.includes("مساء")) {
-                    botReply = "أهلاً بك يا غالي! كيف يمكنني مساعدتك اليوم في موقع معتز ناجي؟";
-                } else if (text.includes("اسمك") || text.includes("من أنت")) {
-                    botReply = "أنا المساعد الذكي الرسمي لموقع معتز ناجي، تم برمجتي لمساعدة زوار الموقع.";
-                } else if (text.includes("معتز") || text.includes("صاحب الموقع")) {
-                    botReply = "معتز ناجي هو المطور ومؤسس هذا الموقع العظيم، وعاشق كبير للترجي الرياضي التونسي!";
-                } else if (text.includes("برمجة") || text.includes("html") || text.includes("css") || text.includes("موقع")) {
-                    botReply = "البرمجة عالم ممتع! هذا الموقع تم تصميمه بواسطة لغة HTML و CSS وتم نشره بكل إحترافية على منصة GitHub Pages.";
-                } else if (text.includes("تاريخ") || text.includes("مسلسل") || text.includes("ارطغرل") || text.includes("العهد")) {
-                    botReply = "المسلسلات التاريخية مثل قيامة أرطغرل والعهد تحكي قصص ملحمية وبطولات كبرى تشبه عزيمة غول إفريقيا!";
-                } else if (text.includes("لاعب") || text.includes("تشكيلة") || text.includes("بلايلي")) {
-                    botReply = "يوسف البلايلي أسطورة وفنان كبير في الميدان، والترجي دائماً ينجب الأسماء الكبيرة التي تصنع الفارق.";
+                // قسم الترجي الرياضي التونسي
+                if (text.includes("ترجي") || text.includes("مكشخة") || text.includes("دولة") || text.includes("غول إفريقيا") || text.includes("بلايلي")) {
+                    botReply = "الترجي الرياضي التونسي (غول إفريقيا وعميد الأندية) هو فخر كرة القدم التونسية! تأسس سنة 1919، وحقق ألقاباً تاريخية لا تُنسى في رابطة أبطال إفريقيا والبطولة المحلية، بفضل جماهيره العظيمة وأساطيره مثل يوسف البلايلي.";
+                } 
+                // قسم البرمجة وتطوير المواقع وتصميمها
+                else if (text.includes("برمجة") || text.includes("html") || text.includes("css") || text.includes("موقع") || text.includes("github") || text.includes("كود")) {
+                    botReply = "البرمجة هي مفتاح العصر! هذا الموقع تم تصميمه بلغات الويب الأساسية HTML و CSS، وتم رفعه ونشره بكل احترافية عبر منصة GitHub Pages ليكون متاحاً لكل العالم.";
+                } 
+                // قسم التاريخ والمسلسلات والأفلام
+                else if (text.includes("تاريخ") || text.includes("مسلسل") || text.includes("ارطغرل") || text.includes("العهد") || text.includes("دراما")) {
+                    botReply = "الأعمال التاريخية مثل قيامة أرطغرل ومسلسل العهد تروي قصصاً عن الشجاعة، الصبر، والبطولات الكبرى، وهي تحاكي تماماً روح العزيمة والإصرار في تحقيق الأهداف.";
+                } 
+                // الرياضة واللياقة البدنية
+                else if (text.includes("رياضة") || text.includes("لياقة") || text.includes("سرعة") || text.includes("تمارين") || text.includes("لاعب") || text.includes("كرة")) {
+                    botReply = "الرياضة وتطوير اللياقة البدنية والسرعة (خصوصاً للاعبي الأجنحة) تتطلب تدريبات فردية مستمرة، انضباطاً عالياً، وجهداً بدنياً منظماً للوصول إلى أعلى مستويات الأداء.";
+                } 
+                // التحيات والأسئلة الشخصية
+                else if (text.includes("سلام") || text.includes("أهلاً") || text.includes("مرحبا") || text.includes("صباح") || text.includes("مساء") || text.includes("كيفك")) {
+                    botReply = "أهلاً بك يا معتز، يا غالي! أنا هنا دائماً لمساعدتك في كل ما تحتاجه لتطوير موقعك وأفكارك.";
+                } 
+                else if (text.includes("اسمك") || text.includes("من أنت") || text.includes("تاريخك")) {
+                    botReply = "أنا المساعد الذكي الرسمي لموقع معتز ناجي، تم برمجتي خصيصاً لمرافقتك في مشاريعك والإجابة عن أسئلتك بكل احترافية.";
+                } 
+                else if (text.includes("معتز") || text.includes("صاحب الموقع") || text.includes("مؤسس")) {
+                    botReply = "معتز ناجي هو المطور العبقري ومؤسس هذا الموقع، وشاب طموح يملك شغفاً كبيراً بالبرمجة وعشق لا ينتهي للترجي الرياضي!";
+                } 
+                // أسئلة عامة مفتوحة لكي لا يعجز عن أي سؤال
+                else if (text.includes("لماذا") || text.includes("كيف") || text.includes("هل") || text.includes("ما هو") || text.includes("من هو") || text.includes("متى")) {
+                    botReply = `سؤالك حول "${userText}" يحمل بُعداً مهماً للغاية. في عالم المعرفة والتكنولوجيا، الاجتهاد والبحث هما أساس النجاح، وموقع معتز ناجي مصمم ليجمع أجمل الأفكار والمعلومات المفيدة في مكان واحد!`;
                 }
 
-                chatBox.innerHTML += `<div class="bot-msg"><b>المساعد:</b> ${botReply}</div>`;
+                chatBox.innerHTML += `<div style="text-align: right;"><div class="bot-msg"><b>المساعد:</b> ${botReply}</div></div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 400);
         }
