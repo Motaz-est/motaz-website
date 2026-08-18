@@ -14,9 +14,9 @@
         
         /* تنسيق صندوق الشات */
         .chat-container { background-color: #161b22; border: 2px solid #facc15; border-radius: 12px; max-width: 600px; margin: 20px auto; padding: 15px; text-align: right; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .chat-box { height: 200px; background-color: #0d1117; border-radius: 8px; padding: 10px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #30363d; font-size: 0.95rem; }
-        .user-msg { color: #60a5fa; margin: 5px 0; }
-        .bot-msg { color: #facc15; margin: 5px 0; }
+        .chat-box { height: 250px; background-color: #0d1117; border-radius: 8px; padding: 10px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #30363d; font-size: 0.95rem; }
+        .user-msg { color: #60a5fa; margin: 8px 0; }
+        .bot-msg { color: #facc15; margin: 8px 0; line-height: 1.5; }
         .chat-input-area { display: flex; gap: 10px; }
         .chat-input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-family: Tahoma, sans-serif; }
         .chat-btn { background-color: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: Tahoma, sans-serif; }
@@ -35,7 +35,7 @@
     <div class="chat-container">
         <h2>اسأل مساعد معتز الذكي</h2>
         <div class="chat-box" id="chatBox">
-            <div class="bot-msg">مرحباً بك! أنا مساعد معتز الذكي، اسألني أي سؤال وسأجيبك فوراً.</div>
+            <div class="bot-msg"><b>المساعد:</b> مرحباً بك يا غالي! أنا مساعد معتز الذكي، اسألني عن الترجي، البرمجة، المسلسلات، أو أي شيء وسأجيبك فوراً.</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleKeyPress(event)">
@@ -43,11 +43,11 @@
         </div>
     </div>
 
-    <!-- معلومات الترجي والتشكيلة -->
+    <!-- معلومات الترجي -->
     <div class="box">
-        <h2>معلومات عن الترجي الرياضي</h2>
+        <h2>نبذة عن الترجي الرياضي</h2>
         <p>تأسس الترجي الرياضي التونسي في <strong>15 جانفي 1919</strong>، وهو عميد الأندية التونسية وأكثرها تتويجاً.</p>
-        <p><strong>أبرز الألقاب:</strong> بطولة تونس، كأس تونس، ورابطة أبطال إفريقيا (1994، 2011، 2018، 2019).</p>
+        <p><strong>أبرز الألقاب:</strong> بطولة تونس، كأس تونس، ورابطة أبطال إفريقيا.</p>
     </div>
 
     <script>
@@ -63,22 +63,33 @@
             inputField.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // توليد إجابة ذكية بسيطة
+            // توليد الإجابة الذكية بناءً على الكلمات المفتاحية
             setTimeout(() => {
-                let botReply = "أهلاً بك يا معتز! سؤال رائع، أنا هنا لمساعدتك في كل ما تطلبه.";
+                let botReply = "سؤالك ذكي جداً يا معتز! لكن في الوقت الحالي أجيبك بدقة على أسئلة الترجي، البرمجة، والتاريخ. جرب أن تسألني عن الترجي الرياضي، ألقاب الفريق، أو تصميم المواقع!";
                 
-                const textLower = userText.toLowerCase();
-                if (textLower.includes("ترجي") || textLower.includes("مكشخة") || textLower.includes("دولة")) {
-                    botReply = "الترجي يا دولة! غول إفريقيا وعميد الأندية التونسية.";
-                } else if (textLower.includes("اسم") || textLower.includes("من أنت")) {
-                    botReply = "أنا المساعد الذكي الخاص بموقع معتز ناجي.";
-                } else if (textLower.includes("سلام") || textLower.includes("أهلاً") || textLower.includes("مرحبا")) {
-                    botReply = "أهلاً بك! كيف يمكنني مساعدتك اليوم؟";
+                const text = userText.toLowerCase();
+
+                if (text.includes("ترجي") || text.includes("مكشخة") || text.includes("دولة") || text.includes("غول إفريقيا")) {
+                    botReply = "الترجي يا دولة! غول إفريقيا وعميد الأندية التونسية، تأسس سنة 1919 وله تاريخ كبير من الألقاب القارية والمحلية.";
+                } else if (text.includes("لقب") || text.includes("بطولة") || text.includes("ألقاب")) {
+                    botReply = "من أبرز ألقاب الترجي الرياضي التونسي: بطولة تونس (رقم قياسي)، كأس تونس، ورابطة أبطال إفريقيا أعوام 1994، 2011، 2018، و2019.";
+                } else if (text.includes("سلام") || text.includes("أهلاً") || text.includes("مرحبا") || text.includes("صباح") || text.includes("مساء")) {
+                    botReply = "أهلاً بك يا غالي! كيف يمكنني مساعدتك اليوم في موقع معتز ناجي؟";
+                } else if (text.includes("اسمك") || text.includes("من أنت")) {
+                    botReply = "أنا المساعد الذكي الرسمي لموقع معتز ناجي، تم برمجتي لمساعدة زوار الموقع.";
+                } else if (text.includes("معتز") || text.includes("صاحب الموقع")) {
+                    botReply = "معتز ناجي هو المطور ومؤسس هذا الموقع العظيم، وعاشق كبير للترجي الرياضي التونسي!";
+                } else if (text.includes("برمجة") || text.includes("html") || text.includes("css") || text.includes("موقع")) {
+                    botReply = "البرمجة عالم ممتع! هذا الموقع تم تصميمه بواسطة لغة HTML و CSS وتم نشره بكل إحترافية على منصة GitHub Pages.";
+                } else if (text.includes("تاريخ") || text.includes("مسلسل") || text.includes("ارطغرل") || text.includes("العهد")) {
+                    botReply = "المسلسلات التاريخية مثل قيامة أرطغرل والعهد تحكي قصص ملحمية وبطولات كبرى تشبه عزيمة غول إفريقيا!";
+                } else if (text.includes("لاعب") || text.includes("تشكيلة") || text.includes("بلايلي")) {
+                    botReply = "يوسف البلايلي أسطورة وفنان كبير في الميدان، والترجي دائماً ينجب الأسماء الكبيرة التي تصنع الفارق.";
                 }
 
                 chatBox.innerHTML += `<div class="bot-msg"><b>المساعد:</b> ${botReply}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 500);
+            }, 400);
         }
 
         function handleKeyPress(event) {
