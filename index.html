@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محطة تسجيل وتغيير الأصوات المتقدمة | معتز ناجي</title>
+    <title>مولد ومخصص الصور | معتز ناجي</title>
     <style>
         :root {
             --bg-main: #0d1117;
             --bg-card: #161b22;
             --border: #30363d;
-            --accent: #a855f7;
-            --accent-hover: #c084fc;
+            --accent: #238636;
+            --accent-hover: #2ea043;
             --text-main: #c9d1d9;
             --text-heading: #ffffff;
             --text-muted: #8b949e;
@@ -27,7 +27,7 @@
         }
 
         .container {
-            max-width: 550px;
+            max-width: 650px;
             margin: 0 auto;
         }
 
@@ -59,21 +59,78 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            text-align: center;
         }
 
-        .status-indicator {
-            font-size: 1.05rem;
-            color: #f85149;
+        .form-group {
             margin-bottom: 15px;
-            font-weight: bold;
-            min-height: 24px;
         }
 
-        .btn-group {
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-heading);
+        }
+
+        .input-field, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: white;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .input-field:focus, select:focus {
+            border-color: #58a6ff;
+            outline: none;
+        }
+
+        .color-row {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+        }
+
+        .color-picker-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 4px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .preview-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-main);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 250px;
+            overflow: hidden;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border-radius: 6px;
         }
 
         .btn {
@@ -83,62 +140,24 @@
             padding: 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: bold;
             font-family: Tahoma, sans-serif;
-            flex: 1;
+            width: 100%;
             transition: 0.2s;
+            text-align: center;
         }
 
         .btn:hover {
             background-color: var(--accent-hover);
         }
 
-        .btn.stop {
-            background-color: #da3633;
-        }
-        .btn.stop:hover {
-            background-color: #b31d1d;
-        }
-
-        .effects-title {
+        .section-title {
             color: var(--text-heading);
             font-size: 1.05rem;
-            margin-bottom: 10px;
-            text-align: right;
+            margin-bottom: 12px;
             border-bottom: 2px solid var(--border);
             padding-bottom: 6px;
-        }
-
-        .effects-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .effect-btn {
-            background-color: #21262d;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: Tahoma, sans-serif;
-            font-size: 0.9rem;
-            transition: 0.2s;
-            text-align: center;
-        }
-
-        .effect-btn:hover {
-            border-color: var(--accent);
-            background-color: #30363d;
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 6px;
         }
     </style>
 </head>
@@ -147,142 +166,97 @@
     <div class="container">
         
         <header>
-            <h1>محطة تغيير الأصوات المتقدمة</h1>
-            <p>سجل صوتك وطبق تأثيرات (فتاة، كلب، سنجاب، وصوت عميق)</p>
+            <h1>مولد ومخصص الصور البرمجية</h1>
+            <p>أنشئ صوراً وصمم تصاميم جرافيكية بسيطة وحملها فوراً</p>
         </header>
 
-        <!-- قسم التسجيل -->
+        <!-- لوحة التحكم وتخصيص الصورة -->
         <div class="card">
-            <div class="status-indicator" id="statusMsg">المايكروفون جاهز للتسجيل</div>
+            <div class="section-title">إعدادات الصورة</div>
             
-            <div class="btn-group">
-                <button class="btn" id="recordBtn" onclick="startRecording()">بدء التسجيل 🎙️</button>
-                <button class="btn stop" id="stopBtn" onclick="stopRecording()" disabled>إيقاف التسجيل ⏹️</button>
+            <div class="form-group">
+                <label for="imgText">النص المكتوب على الصورة:</label>
+                <input type="text" id="imgText" class="input-field" value="موقع معتز ناجي" oninput="drawCanvas()">
             </div>
 
-            <audio id="audioPlayer" controls style="display: none;"></audio>
+            <div class="form-group color-row">
+                <div class="color-picker-wrapper">
+                    <input type="color" id="bgColor" value="#1f6feb" onchange="drawCanvas()">
+                    <label for="bgColor" style="margin:0; cursor:pointer;">لون الخلفية</label>
+                </div>
+                <div class="color-picker-wrapper">
+                    <input type="color" id="textColor" value="#ffffff" onchange="drawCanvas()">
+                    <label for="textColor" style="margin:0; cursor:pointer;">لون النص</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="shapeType">الشكل الهندسي في الخلفية:</label>
+                <select id="shapeType" class="input-field" onchange="drawCanvas()">
+                    <option value="rect">مستطيل ملون</option>
+                    <option value="circle">دائرة في المنتصف</option>
+                    <option value="none">بدون شكل (خلفية فقط)</option>
+                </select>
+            </div>
         </div>
 
-        <!-- قسم المؤثرات -->
-        <div class="card">
-            <div class="effects-title">اختر تأثير الصوت المطلوب</div>
-            <div class="effects-grid">
-                <button class="effect-btn" onclick="applyEffect('normal')">عادي 🎤</button>
-                <button class="effect-btn" onclick="applyEffect('girl')">صوت فتاة 👧</button>
-                <button class="effect-btn" onclick="applyEffect('chipmunk')">سنجاب 🐿️</button>
-                <button class="effect-dir effect-btn" onclick="applyEffect('dog')">صوت كلب 🐕</button>
-                <button class="effect-btn" onclick="applyEffect('deep')" style="grid-column: span 2;">صوت عميق 📻</button>
+        <!-- معاينة الصورة -->
+        <div class="card" style="text-align: center;">
+            <div class="section-title">معاينة الصورة</div>
+            <div class="preview-container">
+                <canvas id="myCanvas" width="500" height="300"></canvas>
             </div>
+            <button class="btn" onclick="downloadImage()">تحميل الصورة (PNG) 💾</button>
         </div>
 
     </div>
 
-    <!-- مكتبة تضخيم وتغيير طبقات الصوت البرمجية (Web Audio API) -->
     <script>
-        let mediaRecorder;
-        let audioChunks = [];
-        let audioBlob;
-        let audioPlayer = document.getElementById("audioPlayer");
-        let statusMsg = document.getElementById("statusMsg");
-        let audioContext, sourceNode, biquadFilter, audioBuffer;
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
 
-        async function startRecording() {
-            audioChunks = [];
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
+        function drawCanvas() {
+            const text = document.getElementById("imgText").value;
+            const bgColor = document.getElementById("bgColor").value;
+            const textColor = document.getElementById("textColor").value;
+            const shapeType = document.getElementById("shapeType").value;
 
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data);
-                };
+            // تعبئة خلفية اللوحة
+            ctx.fillStyle = "#0d1117";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                mediaRecorder.onstop = async () => {
-                    audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    audioPlayer.src = audioUrl;
-                    audioPlayer.style.display = "block";
-                    
-                    // قراءة الكود لمعالجة الـ Web Audio API
-                    const arrayBuffer = await audioBlob.arrayBuffer();
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-                    statusMsg.innerText = "تم تسجيل الصوت بنجاح! اختر تأثيراً من الأسفل.";
-                    statusMsg.style.color = "#2ea043";
-                };
-
-                mediaRecorder.start();
-                statusMsg.innerText = "جاري التسجيل الآن... تحدث في المايكروفون 🔴";
-                statusMsg.style.color = "#f85149";
-                
-                document.getElementById("recordBtn").disabled = true;
-                document.getElementById("stopBtn").disabled = false;
-                audioPlayer.style.display = "none";
-            } catch (err) {
-                alert("تعذر الوصول إلى المايكروفون. تأكد من إعطاء الصلاحيات في المتصفح!");
+            // رسم الشكل حسب اختيار المستخدم
+            if (shapeType === "rect") {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(50, 50, 400, 200);
+            } else if (shapeType === "circle") {
+                ctx.fillStyle = bgColor;
+                ctx.beginPath();
+                ctx.arc(250, 150, 90, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // خلفية كاملة
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
+
+            // كتابة النص في المنتصف
+            ctx.fillStyle = textColor;
+            ctx.font = "bold 26px Tahoma";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
         }
 
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                mediaRecorder.stop();
-                document.getElementById("recordBtn").disabled = false;
-                document.getElementById("stopBtn").disabled = true;
-            }
+        function downloadImage() {
+            const link = document.createElement("a");
+            link.download = "motaz-image.png";
+            link.href = canvas.toDataURL("image.png");
+            link.click();
         }
 
-        async function applyEffect(type) {
-            if (!audioBlob) {
-                alert("الرجاء تسجيل صوت أولاً!");
-                return;
-            }
-
-            // إيقاف أي صوت سابق
-            if (audioContext && audioContext.state === 'suspended') {
-                await audioContext.resume();
-            }
-
-            let source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-
-            let filter = audioContext.createBiquadFilter();
-
-            if (type === 'normal') {
-                audioPlayer.playbackRate = 1.0;
-                filter.type = 'allpass';
-                statusMsg.innerText = "تم تطبيق وضع الصوت العادي.";
-            } else if (type === 'girl') {
-                // صوت فتاة: تسريع طفيف مع رفع الترددات الحادة
-                audioPlayer.playbackRate = 1.35;
-                filter.type = 'highshelf';
-                filter.frequency.value = 1000;
-                filter.gain.value = 15;
-                statusMsg.innerText = "تم تطبيق تأثير صوت الفتاة 👧.";
-            } else if (type === 'chipmunk') {
-                audioPlayer.playbackRate = 1.7;
-                filter.type = 'allpass';
-                statusMsg.innerText = "تم تطبيق تأثير السنجاب السريع 🐿️.";
-            } else if (type === 'dog') {
-                // صوت كلب: إبطاء مع تركيز على الترددات المنخفضة الخشنة
-                audioPlayer.playbackRate = 0.6;
-                filter.type = 'lowshelf';
-                filter.frequency.value = 300;
-                filter.gain.value = 20;
-                statusMsg.innerText = "تم تطبيق تأثير صوت الكلب (خشن وعميق) 🐕.";
-            } else if (type === 'deep') {
-                audioPlayer.playbackRate = 0.72;
-                filter.type = 'lowshelf';
-                filter.frequency.value = 200;
-                filter.gain.value = 15;
-                statusMsg.innerText = "تم تطبيق تأثير الصوت العميق 📻.";
-            }
-
-            source.connect(filter);
-            filter.connect(audioContext.destination);
-            
-            audioPlayer.playbackRate = source.buffer ? audioPlayer.playbackRate : 1.0;
-            audioPlayer.play();
-        }
+        // رسم الصورة أول ما تفتح الصفحة
+        window.onload = drawCanvas;
     </script>
 
 </body>
